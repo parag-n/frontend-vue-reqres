@@ -1,12 +1,14 @@
 <template>
   <div>
-    <user-list :userlist="allUsers" @remove="deleteUser" />
+    <add-user :userlist="allUsers" @addNewUser="addUser"/>
+    <user-list :userlist="allUsers" @remove="deleteUser"/>
   </div>
 </template>
 
 <script>
-import axios from "axios";
+import axios from "./custom-config/MyAxios";
 import UserList from "./components/UserList"
+import AddUser from "./components/AddUser"
 
 export default {
   name: "App",
@@ -16,13 +18,13 @@ export default {
     }
   },
   components: {
+    AddUser,
     UserList  
   },
   mounted() {
-    axios.get("https://reqres.in/api/users").then(
+    axios.get("/users").then(
       (response) => {
-        this.allUsers = response.data.data;
-        console.log(response.data.data)
+        this.allUsers = response.data;
       },
       (reason) => {
         console.log(reason);
@@ -32,6 +34,9 @@ export default {
   methods: {
     deleteUser(id){
       this.allUsers = this.allUsers.filter((user)=>{ return user.id!==id})
+    },
+    addUser(user){
+      this.allUsers = [...this.allUsers, user];
     }
   }
 };
