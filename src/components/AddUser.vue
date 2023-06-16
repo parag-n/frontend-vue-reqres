@@ -1,22 +1,12 @@
 <template>
-  <form id="userForm">
-    <table class="table table-dark">
+  <form id="userForm" class="table table-dark">
+    <table>
       <tbody>
         <tr>
           <td>ADD NEW USER</td>
           <td>
             <input
-              @blur="inputField"
-              type="text"
-              id="avatar"
-              name="avatar"
-              placeholder="Image URL"
-              required
-            />
-          </td>
-          <td>
-            <input
-              @blur="inputField"
+              @blur="saveAttribute"
               type="text"
               id="first_name"
               name="first_name"
@@ -26,7 +16,7 @@
           </td>
           <td>
             <input
-              @blur="inputField"
+              @blur="saveAttribute"
               type="text"
               id="last_name"
               name="last_name"
@@ -36,7 +26,7 @@
           </td>
           <td>
             <input
-              @blur="inputField"
+              @blur="saveAttribute"
               type="text"
               id="trigram"
               name="trigram"
@@ -46,7 +36,7 @@
           </td>
           <td>
             <input
-              @blur="inputField"
+              @blur="saveAttribute"
               type="text"
               id="email"
               name="email"
@@ -55,20 +45,19 @@
             />
           </td>
           <td>
-            <select @blur="inputField" id="role" name="role" required>
+            <select @blur="saveAttribute" id="role" name="role" required>
               <option value="default" selected disabled>
                 -- Select Your Role --
               </option>
-              <option value="Services Software Consultant">
-                Services Software Consultant
+              <option v-for="role in roles" :value="role" :key="role">
+                {{ role }}
               </option>
-              <option value="Software Engineer">Software Engineer</option>
-              <option value="DevOps Engineer">DevOps Engineer</option>
             </select>
           </td>
           <td>
             <button
-              @click.prevent="addUser"
+              @click.prevent="$emit('add', user)"
+              @click="resetForm"
               type="submit"
               class="btn btn-success"
             >
@@ -82,29 +71,34 @@
 </template>
 
 <script>
-import MyAxios from "@/custom-config/MyAxios";
-
 export default {
   name: "AddUser",
-  props: ["userlist"],
+
+  props: ["roles", "imageUrl"],
+
   data() {
     return {
       user: {},
     };
   },
-  methods: {
-    inputField(value) {
-      this.user = { ...this.user, [value.target.name]: value.target.value };
-    },
-    addUser() {
-      console.log(this.user);
 
-      MyAxios.post("/users", this.user)
-        .then((response) => {
-          console.log(response.data);
-          this.$emit('addNewUser', response.data);
-          document.getElementById("userForm").reset();
-        });
+  methods: {
+    // updating the user object with respective inputs
+    saveAttribute(event) {
+      this.user = { ...this.user, [event.target.name]: event.target.value };
+
+      // while updating the trigram, we also update the url of avatar
+      if (event.target.name == "trigram") {
+        this.user = {
+          ...this.user,
+          avatar:
+            this.imageUrl.prefix + event.target.value + this.imageUrl.suffix,
+        };
+      }
+    },
+
+    resetForm() {
+      document.getElementById("userForm").reset();
     },
   },
 };

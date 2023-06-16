@@ -47,65 +47,6 @@
           </button>
         </td>
       </tr>
-      <tr>
-        <form>
-          <td>
-            <input
-              type="text"
-              id="avatar"
-              name="avatar"
-              placeholder="Image URL"
-              required
-            />
-          </td>
-          <td>
-            <input
-              type="text"
-              id="first_name"
-              name="first_name"
-              placeholder="First Name"
-              required
-            />
-          </td>
-          <td>
-            <input
-              type="text"
-              id="last_name"
-              name="last_name"
-              placeholder="Last Name"
-              required
-            />
-          </td>
-          <td>
-            <input
-              type="text"
-              id="trigram"
-              name="trigram"
-              placeholder="Trigram"
-              required
-            />
-          </td>
-          <td>
-            <input
-              type="text"
-              id="email"
-              name="email"
-              placeholder="Email"
-              required
-            />
-          </td>
-          <td>
-            <select id="role" name="role" required>
-              <option value="Services Software Consultant">
-                Services Software Consultant
-              </option>
-              <option value="Software Engineer">Software Engineer</option>
-              <option value="DevOps Engineer">DevOps Engineer</option>
-            </select>
-            <button @click.prevent="" type="submit">Submit</button>
-          </td>
-        </form>
-      </tr>
     </tbody>
   </table>
 </template>
