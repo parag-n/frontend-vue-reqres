@@ -74,6 +74,7 @@
 export default {
   name: "AddUser",
 
+  // props to be received from the parent element
   props: ["roles", "imageUrl"],
 
   data() {
@@ -97,6 +98,7 @@ export default {
       }
     },
 
+    // resetting the user form once submit is clicked
     resetForm() {
       document.getElementById("userForm").reset();
     },
